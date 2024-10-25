@@ -83,7 +83,7 @@ public class Campaign {
 		engagements.parallelStream().forEach(
 				engagement -> engagement.setPhoneToken(null)
 		);
-
+		this.metrics = null;
 	}
 
 	public boolean isActive(){
