@@ -1,8 +1,7 @@
 package com.bassem.campaignmaster.dto;
 
-import com.bassem.campaignmaster.validation.annotation.ValidPhoneNumber;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,14 +14,10 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class UserDTO {
-    @Null
-    private Long id;
-
+public class EngagementBulkCreateDto {
     @NotNull
-    private String username;
+    private Long campaignId;
 
-    @ValidPhoneNumber
-    private String phoneNumber;
+    @NotEmpty
+    private Long[] userIds;
 }

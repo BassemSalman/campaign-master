@@ -5,20 +5,20 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
-public interface BaseMapper<Model, CreateDTO, UpdateDTO, ResponseDTO> {
-//    ResponseDTO toResponseDTO(Model model);
-//    List<ResponseDTO> toResponseDTOs(List<Model> model);
-
-    Model fromCreateDTO(CreateDTO createDTO);
+public abstract class BaseMapper<Model, CreateDto, UpdateDto, ResponseDto> {
+    public abstract ResponseDto toResponseDto(Model model);
+    public abstract List<ResponseDto> toResponseDtos(Collection<Model> model);
+    public abstract Model fromCreateDto(CreateDto createDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void mapUpdateDTOToModel(UpdateDTO updateDTO, @MappingTarget Model model);
+    abstract void mapUpdateDtoToModel(@MappingTarget Model model, UpdateDto updateDto);
 
-    default Model fromUpdateDTO(Model model, UpdateDTO updateDTO){
-        this.mapUpdateDTOToModel(updateDTO, model);
+    public Model fromUpdateDto(Model model, UpdateDto updateDto){
+        this.mapUpdateDtoToModel(model, updateDto);
         return model;
     }
 }

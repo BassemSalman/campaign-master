@@ -1,9 +1,9 @@
 package com.bassem.campaignmaster.mapper;
 
-import com.bassem.campaignmaster.dto.EngagementCreateDTO;
-import com.bassem.campaignmaster.dto.EngagementResponseDTO;
+import com.bassem.campaignmaster.dto.EngagementCreateDto;
+import com.bassem.campaignmaster.dto.EngagementResponseDto;
 import com.bassem.campaignmaster.model.Engagement;
-import com.bassem.campaignmaster.service.UrlConstructionService;
+import com.bassem.campaignmaster.util.UrlConstructionUtil;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,13 +14,12 @@ import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
-
-public abstract class EngagementMapper implements BaseMapper<Engagement, EngagementCreateDTO, Void, Void> {
+public abstract class EngagementMapper extends BaseMapper<Engagement, EngagementCreateDto, Void, EngagementResponseDto> {
     @Autowired
-    UrlConstructionService urlConstructionService;
+    UrlConstructionUtil urlConstructionUtil;
 
-    private EngagementResponseDTO toResponseDTONative(Engagement engagement) {
-        return EngagementResponseDTO.builder()
+    private EngagementResponseDto toResponseDtoCustom(Engagement engagement) {
+        return EngagementResponseDto.builder()
                 .id(engagement.getId())
                 .userId(engagement.getUser().getId())
                 .phoneNumber(engagement.getUser().getPhoneNumber())
@@ -29,20 +28,22 @@ public abstract class EngagementMapper implements BaseMapper<Engagement, Engagem
                 .build();
     }
 
-    public EngagementResponseDTO toResponseDTO(Engagement engagement) {
-        EngagementResponseDTO responseDTO = this.toResponseDTONative(engagement);
-        String constructedUrl = urlConstructionService.constructUrl(engagement);
-        responseDTO.setUrl(constructedUrl);
-        return responseDTO;
+    @Override
+    public EngagementResponseDto toResponseDto(Engagement engagement) {
+        EngagementResponseDto responseDto = this.toResponseDtoCustom(engagement);
+        String constructedUrl = urlConstructionUtil.constructUrl(engagement.getPhoneToken());
+        responseDto.setUrl(constructedUrl);
+        return responseDto;
     }
 
-    public List<EngagementResponseDTO> toResponseDTOs(Collection<Engagement> engagements) {
-        List<EngagementResponseDTO> responseDTOs = new LinkedList<>();
+    @Override
+    public List<EngagementResponseDto> toResponseDtos(Collection<Engagement> engagements) {
+        List<EngagementResponseDto> responseDtos = new LinkedList<>();
         if(engagements == null)
             return new LinkedList<>();
-        for(Engagement engagement : engagements){
-            responseDTOs.add(toResponseDTO(engagement));
+        for(Engagement engagement: engagements){
+            responseDtos.add(toResponseDto(engagement));
         }
-        return responseDTOs;
+        return responseDtos;
     }
 }

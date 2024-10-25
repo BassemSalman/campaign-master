@@ -1,9 +1,6 @@
 package com.bassem.campaignmaster.dto;
 
-import com.bassem.campaignmaster.model.Duration;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +15,7 @@ import lombok.Setter;
 @Builder
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EngagementResponseDTO {
+public class EngagementResponseDto {
     private Long id;
     private Long userId;
     private Long campaignId;

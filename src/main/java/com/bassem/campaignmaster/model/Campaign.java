@@ -1,7 +1,6 @@
 package com.bassem.campaignmaster.model;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,15 +14,17 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.time.LocalDateTime.now;
 
@@ -47,11 +48,11 @@ public class Campaign {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotBlank
 	@Column(name = "name", unique = true)
 	private String name;
 
-	@NotNull
+	@NotBlank
 	@URL
 	@Column(name = "url")
 	private String url;
@@ -65,7 +66,7 @@ public class Campaign {
 	private LocalDateTime expiryDate;
 
 	@OneToMany(mappedBy = "campaign", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Engagement> engagements;
+	private Set<Engagement> engagements = new HashSet<>();
 
 	@JsonManagedReference
 	@PrimaryKeyJoinColumn
@@ -79,6 +80,10 @@ public class Campaign {
 
 	public void deactivate(){
 		this.expiryDate = now();
+		engagements.parallelStream().forEach(
+				engagement -> engagement.setPhoneToken(null)
+		);
+
 	}
 
 	public boolean isActive(){

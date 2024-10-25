@@ -1,6 +1,7 @@
-package com.bassem.campaignmaster.common;
+package com.bassem.campaignmaster.util;
 
 
+import com.bassem.campaignmaster.model.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -17,5 +18,9 @@ public class ApiResponseUtil {
                 .build();
 
         return new ResponseEntity<>(response, status);
+    }
+
+    public static ResponseEntity<?> constructResponse(HttpStatus status){
+        return constructResponse(null, status);
     }
 }

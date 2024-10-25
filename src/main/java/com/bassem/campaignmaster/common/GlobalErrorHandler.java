@@ -1,9 +1,9 @@
 package com.bassem.campaignmaster.common;
 
+import com.bassem.campaignmaster.util.ApiResponseUtil;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -42,7 +41,7 @@ public class GlobalErrorHandler {
     }
 
     @ExceptionHandler({EntityNotFoundException.class, NoHandlerFoundException.class})
-    public ResponseEntity<?> handleEntityNotFoundException(Exception ex){
+    public ResponseEntity<?> handleNotFound(Exception ex){
         log.error(ex.getMessage());
         return ApiResponseUtil.constructResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }

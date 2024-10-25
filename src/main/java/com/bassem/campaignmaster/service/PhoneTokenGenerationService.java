@@ -1,17 +1,15 @@
 package com.bassem.campaignmaster.service;
 
-import java.security.MessageDigest;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.bassem.campaignmaster.exception.CampaignInactiveException;
 import com.bassem.campaignmaster.model.Campaign;
 import com.bassem.campaignmaster.model.Engagement;
 import com.bassem.campaignmaster.repository.EngagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.security.MessageDigest;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PhoneTokenGenerationService {

@@ -6,7 +6,6 @@ import com.bassem.campaignmaster.model.Campaign;
 import com.bassem.campaignmaster.model.User;
 import com.bassem.campaignmaster.repository.AuditTrailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class AuditTrailService  {
 	}
 
 	public AuditTrail findById(long id) {
-		return repo.find(id);
+		return repo.findById(id).orElseThrow(AuditTrailNotFoundException::new);
 	}
 
 	public List<AuditTrail> findAllByCampaignId(int campaignId) {

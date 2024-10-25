@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Builder
-public class EngagementCreateDTO {
+public class EngagementCreateDto {
     @NotNull
     private Long campaignId;
 

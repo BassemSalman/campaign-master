@@ -1,4 +1,4 @@
-package com.bassem.campaignmaster.common;
+package com.bassem.campaignmaster.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

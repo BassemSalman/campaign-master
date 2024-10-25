@@ -1,18 +1,15 @@
 package com.bassem.campaignmaster.service;
 
-import com.bassem.campaignmaster.dto.UserDTO;
+import com.bassem.campaignmaster.dto.UserDto;
 import com.bassem.campaignmaster.exception.UserAlreadyExistsException;
 import com.bassem.campaignmaster.exception.UserNotFoundException;
 import com.bassem.campaignmaster.mapper.UserMapper;
-import com.bassem.campaignmaster.model.Campaign;
-import com.bassem.campaignmaster.model.Engagement;
 import com.bassem.campaignmaster.model.User;
 import com.bassem.campaignmaster.repository.EngagementRepository;
 import com.bassem.campaignmaster.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,29 +24,34 @@ public class UserService {
 	@Autowired
 	private EngagementRepository engagementRepo;
 
-	public List<UserDTO> findAll() {
-		return mapper.toResponseDTOs(repo.findAll());
+	public List<UserDto> findAllDtos() {
+		return mapper.toResponseDtos(repo.findAll());
+	}
+	
+	public User findById(long id) {
+		return repo.findById(id).orElseThrow(UserNotFoundException::new);
 	}
 
-	public UserDTO findById(long id) {
-		return mapper.toResponseDTO(repo.find(id));
+	public UserDto findDtoById(long id) {
+		return mapper.toResponseDto(this.findById(id));
 	}
 
-	public UserDTO findByPhoneNumber(String phoneNumber) {
-		return mapper.toResponseDTO(repo.findByPhoneNumber(phoneNumber).orElseThrow(() -> new UserNotFoundException()));
+	public UserDto findDtoByPhoneNumber(String phoneNumber) {
+		return mapper.toResponseDto(repo.findByPhoneNumber(phoneNumber).orElseThrow(UserNotFoundException::new));
 	}
 
-	public UserDTO create(@Valid UserDTO createDTO) {
-		if(repo.findByUsername(createDTO.getUsername()).isPresent() || repo.findByPhoneNumber(createDTO.getPhoneNumber()).isPresent())
+	public UserDto create(@Valid UserDto createDto) {
+		if(repo.findByUsername(createDto.getUsername()).isPresent() || 
+				repo.findByPhoneNumber(createDto.getPhoneNumber()).isPresent())
 			throw new UserAlreadyExistsException();
-		log.debug("Creating user with username {}", createDTO.getUsername());
-		return mapper.toResponseDTO(repo.save(mapper.fromCreateDTO(createDTO)));
+		log.debug("Creating user with username {}", createDto.getUsername());
+		return mapper.toResponseDto(repo.save(mapper.fromCreateDto(createDto)));
 	}
 
-	public UserDTO deleteById(long id) {
-		User user = repo.find(id);
+	public UserDto deleteById(long id) {
+		User user = this.findById(id);
 		log.debug("Deleting user with username {}", user.getUsername());
 		repo.delete(user);
-		return mapper.toResponseDTO(user);
+		return mapper.toResponseDto(user);
 	}
 }

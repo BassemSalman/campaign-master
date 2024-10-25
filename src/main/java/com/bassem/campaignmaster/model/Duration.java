@@ -1,8 +1,6 @@
 package com.bassem.campaignmaster.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;

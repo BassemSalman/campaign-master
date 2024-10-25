@@ -1,13 +1,13 @@
 package com.bassem.campaignmaster.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-public class CampaignUpdateDTO {
-    @NotNull
+public class CampaignUpdateDto {
+    @NotBlank
     @URL
     private String url;
 
-    @NotNull
+    @NotBlank
     private String name;
 }

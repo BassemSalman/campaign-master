@@ -1,8 +1,6 @@
 package com.bassem.campaignmaster.dto;
 
-import com.bassem.campaignmaster.model.Duration;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +13,11 @@ import org.hibernate.validator.constraints.URL;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CampaignCreateDTO {
-    @NotNull
+public class CampaignCreateDto {
+    @NotBlank
     private String name;
 
+    @NotBlank
     @URL
     private String url;
 }

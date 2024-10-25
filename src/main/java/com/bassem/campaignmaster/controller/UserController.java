@@ -1,8 +1,8 @@
 package com.bassem.campaignmaster.controller;
 
-import com.bassem.campaignmaster.common.ApiResponseUtil;
-import com.bassem.campaignmaster.dto.UserDTO;
+import com.bassem.campaignmaster.dto.UserDto;
 import com.bassem.campaignmaster.service.UserService;
+import com.bassem.campaignmaster.util.ApiResponseUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,17 +25,17 @@ public class UserController {
 
 	@GetMapping
 	public ResponseEntity<?> findAll() {
-		return ApiResponseUtil.constructResponse(service.findAll(), HttpStatus.OK);
+		return ApiResponseUtil.constructResponse(service.findAllDtos(), HttpStatus.OK);
 	}
 
 	@GetMapping("{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") long id) {
-		return ApiResponseUtil.constructResponse(service.findById(id), HttpStatus.OK);
+		return ApiResponseUtil.constructResponse(service.findDtoById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody @Valid UserDTO createDTO) {
-		return ApiResponseUtil.constructResponse(service.create(createDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> create(@RequestBody @Valid UserDto createDto) {
+		return ApiResponseUtil.constructResponse(service.create(createDto), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("{id}")

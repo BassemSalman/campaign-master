@@ -1,12 +1,10 @@
 package com.bassem.campaignmaster.controller;
 
-import com.bassem.campaignmaster.common.ApiResponseUtil;
-import com.bassem.campaignmaster.dto.EngagementBulkCreateDTO;
-import com.bassem.campaignmaster.dto.EngagementCreateDTO;
+import com.bassem.campaignmaster.dto.EngagementBulkCreateDto;
+import com.bassem.campaignmaster.dto.EngagementCreateDto;
 import com.bassem.campaignmaster.service.EngagementService;
-import com.bassem.campaignmaster.service.UrlConstructionService;
+import com.bassem.campaignmaster.util.ApiResponseUtil;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,34 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class EngagementController {
 	@Autowired
 	private EngagementService service;
-	@Autowired
-	private UrlConstructionService urlConstructionService;
 
 	@GetMapping
 	public ResponseEntity<?> findAll() {
-		return ApiResponseUtil.constructResponse(service.findAll(), HttpStatus.OK);
+		return ApiResponseUtil.constructResponse(service.findAllDtos(), HttpStatus.OK);
 	}
 
 	@GetMapping("{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") long id) {
-		return ApiResponseUtil.constructResponse(service.findById(id), HttpStatus.OK);
+		return ApiResponseUtil.constructResponse(service.findDtoById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody @Valid EngagementCreateDTO createDTO) {
-		return ApiResponseUtil.constructResponse(service.create(createDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> create(@RequestBody @Valid EngagementCreateDto createDto) {
+		return ApiResponseUtil.constructResponse(service.create(createDto), HttpStatus.CREATED);
 	}
 	@PostMapping("bulk")
-	public ResponseEntity<?> createBulk(@RequestBody @Valid EngagementBulkCreateDTO bulkCreateDTO) {
-		service.bulkCreate(bulkCreateDTO);
-		return ApiResponseUtil.constructResponse(null, HttpStatus.CREATED);
+	public ResponseEntity<?> createBulk(@RequestBody @Valid EngagementBulkCreateDto bulkCreateDto) {
+		return ApiResponseUtil.constructResponse(service.bulkCreate(bulkCreateDto), HttpStatus.CREATED);
 	}
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteById(@PathVariable("id") long id) {
 		return ApiResponseUtil.constructResponse(service.deleteById(id), HttpStatus.OK);
 	}
 	@GetMapping("{id}/url")
-	public ResponseEntity<?> requestUrl(@PathVariable("id") long id) {
-		return ApiResponseUtil.constructResponse(urlConstructionService.constructUrl(id), HttpStatus.OK);
+	public ResponseEntity<?> findUrlById(@PathVariable("id") long id) {
+		return ApiResponseUtil.constructResponse(service.findUrlById(id), HttpStatus.OK);
 	}
 }

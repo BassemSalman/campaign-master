@@ -1,27 +1,22 @@
 package com.bassem.campaignmaster.model;
 
-import java.time.LocalDateTime;
-
 import com.bassem.campaignmaster.validation.annotation.ValidPhoneNumber;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -46,7 +41,6 @@ public class AuditTrail {
 	@Column(name = "user_id")
 	private Long userId;
 
-	@NotNull
 	@ValidPhoneNumber
 	@Column(name = "phoneNumber")
 	private String phoneNumber;

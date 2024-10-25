@@ -1,11 +1,9 @@
 package com.bassem.campaignmaster.service;
+
 import com.bassem.campaignmaster.model.Campaign;
-import com.bassem.campaignmaster.model.Metrics;
 import com.bassem.campaignmaster.model.Engagement;
+import com.bassem.campaignmaster.model.Metrics;
 import com.bassem.campaignmaster.model.User;
-import com.bassem.campaignmaster.repository.AuditTrailRepository;
-import com.bassem.campaignmaster.repository.EngagementRepository;
-import com.bassem.campaignmaster.repository.MetricsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CampaignActivateDTO {
+public class CampaignActivateDto {
     @Valid
     @NotNull
     private Duration duration;

@@ -1,15 +1,13 @@
 package com.bassem.campaignmaster.mapper;
 
-import com.bassem.campaignmaster.dto.CampaignActivateDTO;
-import com.bassem.campaignmaster.dto.CampaignCreateDTO;
-import com.bassem.campaignmaster.dto.CampaignResponseDTO;
-import com.bassem.campaignmaster.dto.CampaignUpdateDTO;
-import com.bassem.campaignmaster.dto.CampaignResponseDTO;
+import com.bassem.campaignmaster.dto.CampaignCreateDto;
+import com.bassem.campaignmaster.dto.CampaignResponseDto;
+import com.bassem.campaignmaster.dto.CampaignUpdateDto;
 import com.bassem.campaignmaster.model.Campaign;
-import com.bassem.campaignmaster.model.Engagement;
-import com.bassem.campaignmaster.service.UrlConstructionService;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,25 +18,27 @@ import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
-
-public abstract class CampaignMapper implements BaseMapper<Campaign, CampaignCreateDTO, CampaignUpdateDTO, Void> {
-
+public abstract class CampaignMapper extends BaseMapper<Campaign, CampaignCreateDto, CampaignUpdateDto, CampaignResponseDto> {
     @Autowired
     EngagementMapper engagementMapper;
 
-    public abstract CampaignResponseDTO toResponseDTONative(Campaign campaign);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    protected abstract void mapToResponseDto(@MappingTarget CampaignResponseDto responseDto, Campaign campaign);
 
-    public CampaignResponseDTO toResponseDTO(Campaign campaign) {
-        CampaignResponseDTO responseDTO = this.toResponseDTONative(campaign);
-        responseDTO.setEngagements(engagementMapper.toResponseDTOs(campaign.getEngagements()));
-        return responseDTO;
+    @Override
+    public CampaignResponseDto toResponseDto(Campaign campaign) {
+        CampaignResponseDto responseDto = new CampaignResponseDto();
+        mapToResponseDto(responseDto, campaign);
+        responseDto.setEngagements(engagementMapper.toResponseDtos(campaign.getEngagements()));
+        return responseDto;
     }
 
-    public List<CampaignResponseDTO> toResponseDTOs(Collection<Campaign> campaigns){
-        List<CampaignResponseDTO> responseDTOs = new LinkedList<>();
-        for(Campaign campaign : campaigns){
-            responseDTOs.add(toResponseDTO(campaign));
+    @Override
+    public List<CampaignResponseDto> toResponseDtos(Collection<Campaign> campaigns) {
+        List<CampaignResponseDto> responseDtos = new LinkedList<>();
+        for (Campaign campaign : campaigns) {
+            responseDtos.add(toResponseDto(campaign));
         }
-        return responseDTOs;
+        return responseDtos;
     }
 }
